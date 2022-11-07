@@ -56,4 +56,12 @@ while b_continue:
     user_num = float(input("Введите число,которое будет умножение на 2:"))
     result = user_num*2
     print(result)
-    user_continue = input
+    user_continue = input('продолжить?    y/n?')
+    if user_continue == 'y':
+        print("продалжаем")
+    elif user_continue == 'n':
+        print("заканчиваем")
+        break
+    else:
+        print('Неверная команада. Начинаем занова')
+print('до скорых встреч')
