@@ -78,6 +78,14 @@ random.shuffle(deck)
 
 
 
+while True:
+    try:
+        players = (setup_players)
+    except Exception as er:
+        print()
+
+
+
 
 
 players = setup_players()
