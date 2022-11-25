@@ -7,7 +7,7 @@ import random
 # Если ровно 21 он выиграл
 # Если меньше 21, он может решить, брать карту или не брать
 # 
-def draw_a_card():
+def draw_a_card(deck):
     if deck:                    #if len(deck)!= 0
         card = deck.pop(-1)
     else:
@@ -82,9 +82,6 @@ def find_winner(players_to_find):
 
 deck = [2,3,4,6,7,8,9,10,11]*4
 random.shuffle(deck)
-
-
-
 
 
 players = setup_players()
