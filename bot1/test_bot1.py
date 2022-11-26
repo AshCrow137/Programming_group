@@ -45,9 +45,13 @@ def command_handler(message):
         send_message(user_id,f'Привет, {username}! Рад тебя видеть!')
         
     elif text == '/help':
+
         pass
+    elif text == '/game':
+        teleblackjack.blackjack()
     else:
         pass
+
 
 
 
