@@ -110,14 +110,15 @@ def blackjack_game(deck,active_player,user_id):
         win = teleblackjack2.b_win(active_player['score'])
 
         if win == None:
-                    b_continue = True
+                    # b_continue = True
+                    pass
         elif win == False:
-                    b_continue = False
+                    # b_continue = False
                     send_message(user_id,f'Вы проиграли')
                     return False
         elif win == True:
                     active_player['winner'] = True
-                    b_continue = False
+                    # b_continue = False
                     send_message(user_id,f'Вы победили!')
                     return False
     else:
