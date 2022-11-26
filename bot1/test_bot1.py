@@ -11,6 +11,8 @@ BOT_URL = f'https://api.telegram.org/bot{TOKEN}/'
 
 OFFSET = 0 
 
+
+
 def get_updates(offset):
     tg_requests = requests.get(BOT_URL + f"getUpdates?offset={offset}")
 
@@ -48,7 +50,7 @@ def command_handler(message):
 
         pass
     elif text == '/game':
-        teleblackjack.blackjack()
+        pass
     else:
         pass
 
