@@ -20,7 +20,7 @@ def update_score(score,player_score):
     print(f'У вас {current_score} очков')
     return  current_score
 
-def decision():
+def decision(des):
     while True:
         des = input('Брать карту? y/n')
         if des == "y":
