@@ -22,7 +22,7 @@ def update_score(score,player_score):
 
 def decision(des):
     while True:
-        des = input('Брать карту? y/n')
+       
         if des == "y":
             return True
         elif des == "n":
@@ -42,7 +42,9 @@ def b_win(score):
         return None        
 
 def setup_players():
-    num_players = int(input('Введите количество игроков'))
+
+
+    
     players = []
     for num1 in range(1,num_players + 1):
         player = {
@@ -79,9 +81,16 @@ def find_winner(players_to_find):
                 winner = player
                 return player
 
+def shuffle_deck():
+    deck = [2,3,4,6,7,8,9,10,11]*4
+    random.shuffle(deck)
+    return deck
 
-deck = [2,3,4,6,7,8,9,10,11]*4
-random.shuffle(deck)
+def blackjack():
+
+    
+
+    deck = setup_players(num_players = int(input('Введите количество игроков')))
 
 
 players = setup_players()
@@ -109,7 +118,7 @@ for active_player in players:
                 break
         else:
             break
-        b_continue = decision()
+        b_continue = decision(input('Брать карту? y/n'))
 
 
 print(players)
