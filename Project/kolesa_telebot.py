@@ -39,9 +39,15 @@ def reply_to_all_message(message):
             choose_model(message,model)
 
 
+def choose_model(message):
 
- 
+    markup = create_keybord()
+    bot.send_message(message.chat.id,'Локация Астана')
 
+
+@bot.message_handler(commands=['location','Location'])
+def send_location_message(message):
+    
 
 
 while True:
