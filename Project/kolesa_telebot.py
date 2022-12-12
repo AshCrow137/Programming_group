@@ -38,6 +38,12 @@ def reply_to_all_message(message):
         if message.text == model:
             choose_model(message,model)
 
+
+
+ 
+
+
+
 while True:
     try:
 
