@@ -58,11 +58,12 @@ def send_location_message(message):
     bot.send_message(message.chat.id,'Выбирите локацию машины', reply_location= location)
 
 
-@bot message_handler(content_types=['text'])
+@bot.message_handler(content_types=['text'])
 def reply_to_all_message(message):
     for location in dict_of_location.keys():
         if message.text == location:
             choose_model(message,location)
+            
 
     
 
