@@ -63,6 +63,11 @@ def reply_to_all_message(message):
     for location in dict_of_location.keys():
         if message.text == location:
             choose_model(message,location)
+
+
+
+
+            
             
 
     
