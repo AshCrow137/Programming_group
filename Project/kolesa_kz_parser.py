@@ -14,7 +14,10 @@ def parse_kolesa_kz(car_mark,car_condition,car_model,car_location,car_body):
     if get_html_text.status_code == 200:
         result_list = []
         tree = lxml.html.document_fromstring(get_html_text.text)
-        list_of_ads = tree.xpath('//*[@class="a-list"]/div')
+        list_of_ads = tree.xpath('/html/body/main/div/div/div/section/div[1]/div[1]/div[2]/dl[1]/dt/span')
+        '//*[@class="a-list"]/div'
+        '/html/body/main/div/div/div/section/div[1]/div[1]/div[2]/dl[1]/dt/span'
+        print(list_of_ads)
         for i in range(1,len(list_of_ads)+1):
             content_ad = tree.xpath(f'//*[@class="a-list"]/div[{i}]/div/div[2]/div[1]/h5/a/@href')
             if content_ad:
@@ -24,11 +27,11 @@ def parse_kolesa_kz(car_mark,car_condition,car_model,car_location,car_body):
         return 'Не удалось подключиться к сайту'
 
 
-# car_mark = ''
-# car_condition = 'novye-avtomobili/'
-# car_model = ''
-# car_location = 'astana/'
-# car_body = 2
+car_mark = ''
+car_condition = 'novye-avtomobili/'
+car_model = ''
+car_location = 'astana/'
+car_body = 2
 
-# result = parse_kolesa_kz(car_mark,car_condition,car_model,car_location,car_body)
-# print(result)
+result = parse_kolesa_kz(car_mark,car_condition,car_model,car_location,car_body)
+print(result)
