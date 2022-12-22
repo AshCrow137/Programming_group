@@ -12,7 +12,13 @@ dict_of_models = {
 'Toyota':['Camry','Land Cruiser Prado','Land Cruiser','RAV4','Corolla','Estima','Alphard'],
 'Volkswagen':['Passat','Golf','Polo','Vento','Transporter','Jetta','Touareg','Tiguan']
 }
-    
+
+list_of_locations = ['Алматы', "Астана"]
+
+MARK = None
+MODEL = None
+LOCATION = None
+
 def create_keyboard(list_of_buttons):
     markup = types.ReplyKeyboardMarkup(resize_keyboard= True)
     for btn_text in list_of_buttons:
@@ -33,10 +39,17 @@ def send_start_message(message):
 
 @bot.message_handler(content_types=['text'])
 def reply_to_all_message(message):
-    for model in dict_of_models.keys():
-        if message.text == model:
-            choose_model(message,model)
-
+    for mark in dict_of_models.keys():
+        if message.text == mark:
+            global MARK
+            MARK = mark
+            choose_model(message,mark)
+    if message.text in dict_of_models[MARK]:
+        for model in dict_of_models[MARK]:
+            if message.text == model:
+                global MODEL
+                MODEL = model
+                print(MARK, MODEL)
 
 while True:
     try:
