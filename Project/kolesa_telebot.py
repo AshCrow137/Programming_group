@@ -59,7 +59,7 @@ def choose_model(message):
 @bot.message_handler(commands=['location','Location'])
 def send_location_message(message):
     markup = create_keybord(['location'])
-    bot.send_message(message.chat.id,'Выбирите локацию машины', reply_location= location)
+    bot.send_message(message.chat.id,'Выбирите локацию машины')
 
 
 @bot.message_handler(content_types=['text'])
