@@ -27,8 +27,8 @@ def car_informations():
         list_of_info=tree.xpath('//*[@class="offer__parameters"]/dl')
         for i in range(1,len(list_of_info)+1):
             car_info = tree.xpath(f'//*[@class="offer__parameters"]/dl[{i}]/dd/text()')
-            car_characteristic = car_characteristic.get(car_characteristic[0], car_info[0])
-            print(car_characteristic)
+
+            print(car_info[0])
         
  
 def parse_kolesa_kz(car_mark,car_condition,car_model,car_location,car_body):
