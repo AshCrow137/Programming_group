@@ -12,8 +12,8 @@ dict_of_models = {'Toyota':['Camry','Land Cruiser', 'Prado,Land','Cruiser','RAV4
 'Volkswargen':['Passat','Golf','Polo','Vento','Transporter','Jetta','Touareg','Tiguan']
 }
 
-dict_of_location = {'location':['Алматы', 'Астана', 'Караганда', 'Шымкент', 'Актобе', 'Костанай', 'Атырау']
-}
+list_of_location = ['Алматы', 'Астана', 'Караганда', 'Шымкент', 'Актобе', 'Костанай', 'Атырау']
+
 
 
 def create_keybord(list_of_buttons):
@@ -32,7 +32,8 @@ def create_keybord(list_of_buttons):
 def choose_model(message):
 
     markup = create_keybord()
-    bot.send_message(message.chat.id,'Выбирите марку')
+    bot.send_message(message.chat.id,'Выбирите марку',reply_markup=markup)
+    
 
 
 @bot.message_handler(commands=['start','Start'])
@@ -43,6 +44,12 @@ def send_start_message(message):
 
 @bot.message_handler(content_types=['text'])
 def reply_to_all_message(message):
+    if message.text in list_of_location:
+        for location in list_of_location:
+            if message.text == location:
+                choose_location(message,location)
+
+
     for model in dict_of_models.keys():
         if message.text == model:
             choose_model(message,model)
@@ -52,23 +59,23 @@ def reply_to_all_message(message):
 
 
 
-def choose_model(message):
+def choose_location(message):
 
-    markup = create_keybord()
-    bot.send_message(message.chat.id,'Выбирите локацию ')
+    markup = create_keybord(list_of_location)
+    bot.send_message(message.chat.id,'Выбирите локацию ',reply_markup= markup)
 
 
 @bot.message_handler(commands=['location','Location'])
 def send_location_message(message):
     markup = create_keybord(['location'])
-    bot.send_message(message.chat.id,'Выбирите локацию машины')
+    bot.send_message(message.chat.id,'Выбирите локацию машины',reply_markup= markup)
 
 
 @bot.message_handler(content_types=['text'])
 def reply_to_all_message(message):
-    for location in dict_of_location.keys():
+    for location in list_of_location:
         if message.text == location:
-            choose_model(message,location)
+            choose_location(message,location)
 
 
 
