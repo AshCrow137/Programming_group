@@ -14,8 +14,15 @@ dict_of_models = {
 'Volkswagen':['Passat','Golf','Polo','Vento','Transporter','Jetta','Touareg','Tiguan']
 }
 
-list_of_locations = ['Алматы', "Астана"]
+list_of_locations = {'Алматы':'almaty', "Астана":'astana'}
+
 dict_of_conditions = {'Новые автомобили':'novye-avtomobili','Автомобили с пробегом':'avtomobili-s-probegom'}
+dict_of_bodies = {'легковые':1,'внедорожники и пикапы':2,'минивены и микроавтобусы':3}
+
+"легковые"
+"Внедорожники и пикапы"
+"Минивены и микроавтобусы"
+
 
 MARK = None
 MODEL = None
@@ -31,14 +38,19 @@ def create_keyboard(list_of_buttons):
     return markup
 
 def choose_model(message,mark):
-
     markup = create_keyboard(dict_of_models[mark])
     bot.send_message(message.chat.id,'Выберите модель автомобиля',reply_markup=markup)
+
 def choose_location(message):
-    markup = create_keyboard(list_of_locations)
+    markup = create_keyboard(list(list_of_locations.keys()))
     bot.send_message(message.chat.id,'Выберите местоположение автомобиля',reply_markup= markup)
+
 def choose_condition(message):
-    pass
+    markup = create_keyboard(list(dict_of_conditions.keys()))
+    bot.send_message(message.chat.id,'Выберите состояние автомобиля',reply_markup=markup)
+def choose_body(message):
+    markup = create_keyboard(list(dict_of_bodies.keys()))
+    bot.send_message(message.chat.id,'Выберите тип кузова',reply_markup=markup)
 
 
 @bot.message_handler(commands=['start','Start'])
@@ -59,12 +71,24 @@ def reply_to_all_message(message):
                 global MODEL
                 MODEL = model
                 choose_location(message)
-    if message.text in list_of_locations:
+    if message.text in list(list_of_locations.keys()):
         for city in list_of_locations:
             if message.text == city:
                 global LOCATION
-                LOCATION = city
-
+                LOCATION = list_of_locations[city]
+                choose_condition(message)
+    if message.text in list(dict_of_conditions.keys()):
+        for key in dict_of_conditions:
+            if message.text == key:
+                global CAR_CONDITION
+                CAR_CONDITION = dict_of_conditions[key]
+                choose_body(message)
+    if message.text in list(dict_of_bodies.keys()):
+        for key in dict_of_bodies:
+            if message.text == key:
+                global CAR_BODY
+                CAR_BODY = dict_of_bodies[key]
+                print(MARK,MODEL,LOCATION,CAR_CONDITION,CAR_BODY)        
 
 while True:
     try:
