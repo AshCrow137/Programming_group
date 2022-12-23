@@ -15,6 +15,7 @@ dict_of_models = {
 }
 
 list_of_locations = ['Алматы', "Астана"]
+dict_of_conditions = {'Новые автомобили':'novye-avtomobili','Автомобили с пробегом':'avtomobili-s-probegom'}
 
 MARK = None
 MODEL = None
@@ -34,9 +35,10 @@ def choose_model(message,mark):
     markup = create_keyboard(dict_of_models[mark])
     bot.send_message(message.chat.id,'Выберите модель автомобиля',reply_markup=markup)
 def choose_location(message):
-    murkup = create_keyboard(list_of_locations)
-    bot.send_message(message.chat.id,'Выбирите местоположение автомобиля',reply_markup= murkup)
-
+    markup = create_keyboard(list_of_locations)
+    bot.send_message(message.chat.id,'Выберите местоположение автомобиля',reply_markup= markup)
+def choose_condition(message):
+    pass
 
 
 @bot.message_handler(commands=['start','Start'])
@@ -57,6 +59,12 @@ def reply_to_all_message(message):
                 global MODEL
                 MODEL = model
                 choose_location(message)
+    if message.text in list_of_locations:
+        for city in list_of_locations:
+            if message.text == city:
+                global LOCATION
+                LOCATION = city
+
 
 while True:
     try:

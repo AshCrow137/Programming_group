@@ -16,7 +16,7 @@ def car_informations(url):
             car_info = tree.xpath(f'//*[@class="offer__parameters"]/dl[{i}]/dd/text()')
             car_information_values.append(car_info[0])
         info_dict = zip(car_characteristics ,car_information_values)
-        print(dict(info_dict))
+        return dict(info_dict)
 
 
 
@@ -29,9 +29,9 @@ def parse_kolesa_kz(car_mark,car_condition,car_model,car_location,car_body):
 
         result_list = []
         tree = lxml.html.document_fromstring(get_html_text.text)
-        list_of_ads = tree.xpath('/html/body/main/div/div/div/section/div[1]/div[1]/div[2]/dl[1]/dt/span')
-        '//*[@class="a-list"]/div'
-        '/html/body/main/div/div/div/section/div[1]/div[1]/div[2]/dl[1]/dt/span'
+        list_of_ads = tree.xpath('//*[@class="a-list"]/div')
+        # '//*[@class="a-list"]/div'
+        # '/html/body/main/div/div/div/section/div[1]/div[1]/div[2]/dl[1]/dt/span'
         print(list_of_ads)
         for i in range(1,len(list_of_ads)+1):
             content_ad = tree.xpath(f'//*[@class="a-list"]/div[{i}]/div/div[2]/div[1]/h5/a/@href')
