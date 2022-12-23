@@ -5,7 +5,7 @@ from telebot import types
 token_file = open('bot2/token.txt','rt',encoding='utf-8')
 token = token_file.read()
 token_file.close()
-
+# token = '5637691354:AAH2PHeGjNfV8ZRAhmnlymWIQebWapj0KeE'
 bot = telebot.TeleBot(token)
 
 
