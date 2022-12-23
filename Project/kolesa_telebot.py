@@ -15,10 +15,13 @@ dict_of_models = {
 }
 
 list_of_locations = ['Алматы', "Астана"]
+dict_of_conditions = {'Новые автомобили':'novye-avtomobili','Автомобили с пробегом':'avtomobili-s-probegom'}
 
 MARK = None
 MODEL = None
 LOCATION = None
+CAR_CONDITION = None
+CAR_BODY = None
 
 def create_keyboard(list_of_buttons):
     markup = types.ReplyKeyboardMarkup(resize_keyboard= True)
@@ -31,6 +34,11 @@ def choose_model(message,mark):
 
     markup = create_keyboard(dict_of_models[mark])
     bot.send_message(message.chat.id,'Выберите модель автомобиля',reply_markup=markup)
+def choose_location(message):
+    markup = create_keyboard(list_of_locations)
+    bot.send_message(message.chat.id,'Выберите местоположение автомобиля',reply_markup= markup)
+def choose_condition(message):
+    pass
 
 
 @bot.message_handler(commands=['start','Start'])
@@ -50,7 +58,13 @@ def reply_to_all_message(message):
             if message.text == model:
                 global MODEL
                 MODEL = model
-                print(MARK, MODEL)
+                choose_location(message)
+    if message.text in list_of_locations:
+        for city in list_of_locations:
+            if message.text == city:
+                global LOCATION
+                LOCATION = city
+
 
 while True:
     try:
