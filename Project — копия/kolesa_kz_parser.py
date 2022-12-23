@@ -5,36 +5,42 @@ import json
 import lxml.html
 from lxml import etree
 
-def car_informations(url):   
-    car_information_values = []
-    get_html_text = requests.get(url)
-
+def car_informations(): 
+    car_characteristic = {
+        'город': None,
+        "поколение":None,
+        "кузов":None,
+        "объем двигателя":None,
+        "пробег":None,
+        "коробка передач":None,
+        "привод":None,
+        "руль":None,
+        "цыет":None,
+        "растаможен в Казахстане":None
+    }
+    URL = result_list[0]
+    print(URL)
+    get_html_text = requests.get(URL)
+    print(get_html_text.status_code)
     if get_html_text.status_code == 200:
         tree = lxml.html.document_fromstring(get_html_text.text)
         list_of_info=tree.xpath('//*[@class="offer__parameters"]/dl')
         for i in range(1,len(list_of_info)+1):
             car_info = tree.xpath(f'//*[@class="offer__parameters"]/dl[{i}]/dd/text()')
-            car_information_values.append(car_info[0])
-        info_dict = zip(car_characteristics ,car_information_values)
-        print(dict(info_dict))
-
-
-
+            car_characteristic = car_characteristic.get(car_characteristic[0], car_info[0])
+            print(car_characteristic)
+        
+ 
 def parse_kolesa_kz(car_mark,car_condition,car_model,car_location,car_body):
     URL = f'https://kolesa.kz/cars/{car_mark}{car_condition}{car_model}{car_location}?auto-car-grbody={car_body}&sort_by=price-asc'
-    #print(URL)
+    print(URL)
     get_html_text = requests.get(URL)
-    #print(get_html_text.status_code)
+    print(get_html_text.status_code)
     if get_html_text.status_code == 200:
-
+        global result_list
         result_list = []
         tree = lxml.html.document_fromstring(get_html_text.text)
         list_of_ads = tree.xpath('//*[@class="a-list"]/div')
-        # '//*[@class="a-list"]/div'
-        # '/html/body/main/div/div/div/section/div[1]/div[1]/div[2]/dl[1]/dt/span'
-        # '//*[@id="advert-134477449"]/div[2]/div[1]/h5/a'
-        # '/html/body/main/div/div[1]/div[1]/div[5]/div[1]/div/div[2]/div[1]/h5/a'
-        print(list_of_ads)
         for i in range(1,len(list_of_ads)+1):
             content_ad = tree.xpath(f'//*[@class="a-list"]/div[{i}]/div/div[2]/div[1]/h5/a/@href')
             if content_ad:
@@ -43,7 +49,6 @@ def parse_kolesa_kz(car_mark,car_condition,car_model,car_location,car_body):
     else:
         return 'Не удалось подключиться к сайту'
 
-car_characteristics= ['город','покление','кузов','объем двигателя','коробка передач','привод','руль','растаможен в Казахстане']
 
 car_mark = ''
 car_condition = 'novye-avtomobili/'
@@ -54,6 +59,6 @@ car_body = 2
 result = parse_kolesa_kz(car_mark,car_condition,car_model,car_location,car_body)
 print(result)
 
-car_informations(result[0])
+car_informations()
 
 
