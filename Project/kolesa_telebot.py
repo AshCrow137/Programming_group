@@ -28,7 +28,6 @@ def create_keyboard(list_of_buttons):
     return markup
 
 def choose_model(message,mark):
-
     markup = create_keyboard(dict_of_models[mark])
     bot.send_message(message.chat.id,'Выберите модель автомобиля',reply_markup=markup)
 
