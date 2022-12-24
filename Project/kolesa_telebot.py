@@ -1,134 +1,99 @@
 import telebot
-import time
 from telebot import types
+import time
 
 
 token_file = open('Project/token.txt','rt')
 TOKEN = token_file.read()
-token_file.close()
 
 bot = telebot.TeleBot(TOKEN)
 
-dict_of_models = {
-'Toyota':['Camry','Land Cruiser Prado','Land Cruiser','RAV4','Corolla','Estima','Alphard'],
-'Volkswagen':['Passat','Golf','Polo','Vento','Transporter','Jetta','Touareg','Tiguan']
+dict_of_models = {'Toyota':['Camry','Land Cruiser', 'Prado,Land','Cruiser','RAV4','Corolla','Estima','Alphard'],
+'Volkswargen':['Passat','Golf','Polo','Vento','Transporter','Jetta','Touareg','Tiguan']
 }
 
-list_of_locations = {'Алматы':'almaty', "Астана":'astana'}
-dict_of_conditions = {'Новые автомобили':'novye-avtomobili','Автомобили с пробегом':'avtomobili-s-probegom'}
-dict_of_bodies = {'легковые':1,'внедорожники и пикапы':2 ,'минивены и микроавтобусы':3}
+list_of_location = ['Алматы', 'Астана', 'Караганда', 'Шымкент', 'Актобе', 'Костанай', 'Атырау']
 
-MARK = None
-MODEL = None
-LOCATION = None
-CAR_CONDITION = None
-CAR_BODY = None
 
-def create_keyboard(list_of_buttons):
+
+def create_keybord(list_of_buttons):
     markup = types.ReplyKeyboardMarkup(resize_keyboard= True)
     for btn_text in list_of_buttons:
         btn = types.KeyboardButton(btn_text)
         markup.add(btn)
     return markup
 
-def choose_model(message,mark):
-    markup = create_keyboard(dict_of_models[mark])
-    bot.send_message(message.chat.id,'Выберите модель автомобиля',reply_markup=markup)
-
-def choose_location(message):
-    murkup = create_keyboard(list(list_of_locations.keys()))
-    bot.send_message(message.chat.id,'Выбирите местоположение автомобиля',reply_markup= murkup)
-
-def choose_condition(message):
-    markup = create_keyboard(list(dict_of_conditions.keys()))
-    bot.send_message(message.chat.id,'Выберите состояние автомобиля',reply_markup= markup)
-
-def choose_body(message):
- markup = create_keyboard(list(dict_of_bodies.keys()))
- bot.send_message(message.chat.id,'Выберите тип кузова',reply_markup= markup)
 
 
+
+
+    
+
+def choose_model(message):
+
+    markup = create_keybord()
+    bot.send_message(message.chat.id,'Выбирите марку',reply_markup=markup)
+    
 
 
 @bot.message_handler(commands=['start','Start'])
 def send_start_message(message):
-    markup = create_keyboard(['Toyota','Volkswagen'])
-    bot.send_message(message.chat.id,'Выберите марку автомобиля',reply_markup= markup)
+    markup = create_keybord(['Toyota','Volkswargen'])
+    bot.send_message(message.chat.id,'Выбирите марку автомобиля',reply_markup= markup)
+
 
 @bot.message_handler(content_types=['text'])
 def reply_to_all_message(message):
-    for mark in dict_of_models.keys():
-        if message.text == mark:
-            global MARK
-            MARK = mark
-            choose_model(message,mark)
-    if message.text in dict_of_models[MARK]:
-        for model in dict_of_models[MARK]:
-            if message.text == model:
-                global MODEL
-                MODEL = model
-                choose_location(message)
-    if message.text in list_of_locations:
-        for city in list_of_locations:
-            if message.text == city:
-                global LOCATION
-                LOCATION = list_of_locations[city]
-                choose_condition(message)
-    if message.text in list(dict_of_conditions.keys()):
-        for key in dict_of_conditions:
-            if message.text == key:
-                global CAR_CONDITION
-                CAR_CONDITION = dict_of_conditions[key]
-                choose_body(message)
-    if message.text in list(dict_of_bodies.keys()):
-        for key in dict_of_bodies:
-                print(MARK,MODEL,LOCATION,CAR_CONDITION,CAR_BODY)
+    if message.text in list_of_location:
+        for location in list_of_location:
+            if message.text == location:
+                choose_location(message,location)
 
 
-while True:
-    try:
-
-        bot.infinity_polling(2)
-    except Exception as er:
-        print(er)
-        time.sleep(2)    
-        continue
-
-token_file = open('Project/token.txt','rt',encoding='utf-8')
-token = token_file.read()
-token_file.close()
-
-bot = telebot.TeleBot(token)
-dict_of_models = {'Toyota': ['Camry', 'Land Cruiser Prado',' Land Cruiser','RAV4', 'Corolla', 'Estima', 'Alphard'],
-'Volkswagen': ['Passat','Golf','Polo','Vento','Transporter','Jetta','Touareg','Tiguan'] }
-
-def create_keyboard(list_of_buttons):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    for btn_text in list_of_buttons:
-        btn = types.KeyboardButton(btn_text)
-        markup.add(btn)
-    return markup
-
-def choose_model(message, mark):
-
-    markup = create_keyboard(dict_of_models[mark])
-    bot.send_message(message.chat.id, 'выберите модель авто', reply_markup=markup)
-
-@bot.message_handler(commands= ['start','Start'])
-def send_start_message(message):
-    markup = create_keyboard(['Toyota','Volkswagen'])
-    bot.send_message(message.chat.id, 'выберите марку авто', reply_markup=markup)
-
-@bot.message_handler(content_types=['text'])
-def reply_to_all_message(message):
     for model in dict_of_models.keys():
         if message.text == model:
-            choose_model(message, model)
+            choose_model(message,model)
+
+
+
+
+
+
+def choose_location(message):
+
+    markup = create_keybord(list_of_location)
+    bot.send_message(message.chat.id,'Выбирите локацию ',reply_markup= markup)
+
+
+@bot.message_handler(commands=['location','Location'])
+def send_location_message(message):
+    markup = create_keybord(['location'])
+    bot.send_message(message.chat.id,'Выбирите локацию машины',reply_markup= markup)
+
+
+@bot.message_handler(content_types=['text'])
+def reply_to_all_message(message):
+    for location in list_of_location:
+        if message.text == location:
+            choose_location(message,location)
+
+
+
+
+
+
+            
+            
+
+    
 
 while True:
     try:
+
         bot.infinity_polling(2)
     except Exception as er:
         print(er)
         time.sleep(2)
         continue
+
+

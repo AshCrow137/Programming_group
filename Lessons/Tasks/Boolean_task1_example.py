@@ -1,3 +1,6 @@
+
+
+print()
 print("Enter number one")
 number1 = float(input())
 
@@ -21,6 +24,7 @@ elif operation == "/":
     print(result1)
 else:
     print("Unknown operation")
+
 
 # print("Enter number one")
 # number1 = float(input())
