@@ -1,6 +1,7 @@
 import telebot
 import time
 from telebot import types
+import kolesa_kz_parser 
 
 
 token_file = open('Project/token.txt','rt')
@@ -63,32 +64,53 @@ def reply_to_all_message(message):
     for mark in dict_of_models.keys():
         if message.text == mark:
             global MARK
-            MARK = mark
+            MARK = mark 
             choose_model(message,mark)
     if message.text in dict_of_models[MARK]:
         for model in dict_of_models[MARK]:
             if message.text == model:
                 global MODEL
-                MODEL = model
+                MODEL = model + '/'
+                MODEL = MODEL.lower()
+                MODEL = MODEL.replace(' ','-')
                 choose_location(message)
     if message.text in list(list_of_locations.keys()):
         for city in list_of_locations:
             if message.text == city:
                 global LOCATION
-                LOCATION = list_of_locations[city]
+                LOCATION = list_of_locations[city] + '/' 
                 choose_condition(message)
     if message.text in list(dict_of_conditions.keys()):
         for key in dict_of_conditions:
             if message.text == key:
                 global CAR_CONDITION
-                CAR_CONDITION = dict_of_conditions[key]
+                CAR_CONDITION = dict_of_conditions[key] +'/'
                 choose_body(message)
     if message.text in list(dict_of_bodies.keys()):
         for key in dict_of_bodies:
             if message.text == key:
                 global CAR_BODY
                 CAR_BODY = dict_of_bodies[key]
-                print(MARK,MODEL,LOCATION,CAR_CONDITION,CAR_BODY)        
+                print(MARK,MODEL,LOCATION,CAR_CONDITION,CAR_BODY) 
+    if MARK and MODEL and LOCATION and CAR_CONDITION and CAR_BODY:
+        MARK= MARK.lower()
+        list_of_ads = kolesa_kz_parser.parse_kolesa_kz(MARK + '/',CAR_CONDITION,MODEL,LOCATION,CAR_BODY)
+        MARK = MODEL = LOCATION = CAR_BODY = CAR_CONDITION = None
+        if list_of_ads and len(list_of_ads)>=10:
+            
+            for ad in list_of_ads[:10]:
+                text = ''
+                ad_info = kolesa_kz_parser.car_informations(ad)
+                ad_text = ''
+                for key in ad_info:
+                    ad_text = ad_text + key + '--->' +ad_info[key] 
+                text = text+ ad + '\n'  +ad_text + '\n'
+                bot.send_message(message.chat.id,str(list_of_ads[:10]),reply_markup=types.ReplyKeyboardRemove())
+        elif list_of_ads:
+            bot.send_message(message.chat.id,str(list_of_ads))
+        else:
+            bot.send_message(message.chat.id,'Не удалось найти обьевлений по вашему запросу. Попробуйте занова \n/start')
+
 
 while True:
     try:

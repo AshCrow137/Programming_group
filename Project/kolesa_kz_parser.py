@@ -25,11 +25,3 @@ def parse_kolesa_kz(car_mark,car_condition,car_model,car_location,car_body):
     else:
         return 'Не удалось подключиться к сайту'
 
-#car_mark = ''
-#car_condition = 'novye-avtomobili/'
-#car_model = ''
-#car_location = 'astana/'
-#car_body = 2
-
-#result =parse_kolesa_kz(car_mark,car_condition,car_model,car_location,car_body)
-#print(result)
